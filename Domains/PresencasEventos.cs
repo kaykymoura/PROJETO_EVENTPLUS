@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Projeto_EventPlus.Domains
 {
+    [Table("PresencasEventos")]
     public class PresencasEventos
     {
         [Key]
@@ -15,6 +16,8 @@ namespace Projeto_EventPlus.Domains
         [ForeignKey("Evento")]
         public Guid IdEvento { get; set; }
 
-        public Guid Situacao { get; set; }
+        [Column(TypeName = "BIT")]
+        [Required(ErrorMessage = "A situacao e obrigatoria!")]
+        public bool Situacao { get; set; }
     }
 }
