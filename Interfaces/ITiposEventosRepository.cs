@@ -1,5 +1,4 @@
-﻿
-using Projeto_EventPlus.Domains;
+﻿using Projeto_EventPlus.Domains;
 
 namespace projeto_event_plus.Interfaces
 {
@@ -15,8 +14,9 @@ namespace projeto_event_plus.Interfaces
         List<TiposEventos> Listar();
 
 
-        //BuscarPorId
-        TiposEventos BuscarPorId(Guid id, TiposEventos tiposEventos);
+        // BuscarPorId
+        TiposEventos BuscarPorId(Guid id);
+
 
         //atualizar
         void Atualizar(Guid id, TiposEventos tiposEventos);

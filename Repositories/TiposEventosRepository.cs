@@ -1,33 +1,100 @@
-﻿using projeto_event_plus.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using projeto_event_plus.Interfaces;
+using Projeto_EventPlus.Contexts;
 using Projeto_EventPlus.Domains;
 
-namespace Projeto_EventPlus.Repositories
+namespace EventPlus_.Repositories
 {
-    public class TiposEventosRepository : ITiposEventosRepository
+    public class TipoEventoRepository : ITiposEventosRepository
     {
-        public void Atualizar(Guid id, TiposEventos tiposEventos)
+        private readonly Event_Context _context;
+
+        public TipoEventoRepository(Event_Context context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public TiposEventos BuscarPorId(Guid id, TiposEventos tiposEventos)
+        public void Atualizar(Guid id, TiposEventos tipoEvento)
         {
-            throw new NotImplementedException();
+            try
+            {
+                TiposEventos tipoEventoBuscado = _context.TiposEventos.Find(id)!;
+
+                if (tipoEventoBuscado != null)
+                {
+                    tipoEventoBuscado.TituloTipoEvento = tipoEvento.TituloTipoEvento;
+                }
+
+                _context.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public void Cadastrar(TiposEventos tiposEventos)
+        public TiposEventos BuscarPorId(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                TiposEventos tipoEventoBuscado = _context.TiposEventos.Find(id)!;
+                return tipoEventoBuscado;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void Cadastrar(TiposEventos novoTipoEvento)
+        {
+            try
+            {
+                _context.TiposEventos.Add(novoTipoEvento);
+
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public void Deletar(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                TiposEventos tipoEventoBuscado = _context.TiposEventos.Find(id)!;
+
+                if (tipoEventoBuscado != null)
+                {
+                    _context.TiposEventos.Remove(tipoEventoBuscado);
+                }
+
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public List<TiposEventos> Listar()
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<TiposEventos> listaDeEventos = _context.TiposEventos.ToList();
+                return listaDeEventos;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
