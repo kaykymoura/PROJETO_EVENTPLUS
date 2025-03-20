@@ -14,23 +14,23 @@ namespace EventPlus_.Repositories
             _context = context;
         }
 
-        public void Atualizar(Guid id, TiposEventos tipoEvento)
+        public void Atualizar(Guid id, TiposEventos tiposEventos)
         {
             try
             {
-                TiposEventos tipoEventoBuscado = _context.TiposEventos.Find(id)!;
+                TiposEventos tiposEventosBuscado = _context.TiposEventos.Find(id)!;
 
-                if (tipoEventoBuscado != null)
+                if (tiposEventosBuscado != null)
                 {
-                    tipoEventoBuscado.TituloTipoEvento = tipoEvento.TituloTipoEvento;
+                    tiposEventosBuscado.IdTipoEvento = tiposEventos.IdTipoEvento;
+                    tiposEventosBuscado.TituloTipoEvento = tiposEventos.TituloTipoEvento;
+
+                    _context.TiposEventos.Update(tiposEventosBuscado);
+                    _context.SaveChanges();
                 }
-
-                _context.SaveChanges();
-
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

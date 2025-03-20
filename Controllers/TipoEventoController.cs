@@ -61,21 +61,29 @@ namespace projeto_event_plus.Controllers
             }
         }
 
-        //BuscarPorId 
+        //BuscarPorId Feito com Chat Gpt Para Realizar Reparos :)
         [HttpGet("BuscarPorId/{id}")]
-        public IActionResult GetById(Guid id, TiposEventos tiposEventos)
+        public IActionResult GetById(Guid id)
         {
             try
             {
                 TiposEventos tiposEventosBuscado = _tiposEventosRepository.BuscarPorId(id);
+
+                // Verificar se o evento foi encontrado
+                if (tiposEventosBuscado == null)
+                {
+                    return NotFound("Evento não encontrado.");
+                }
+
                 return Ok(tiposEventosBuscado);
             }
             catch (Exception e)
             {
-
-                return BadRequest(e.Message);
+                // Retorna uma resposta de erro com a mensagem da exceção
+                return BadRequest($"Erro ao buscar evento: {e.Message}");
             }
         }
+        
         [HttpPut("{id}")]
         public IActionResult Put(Guid id, TiposEventos tiposEventos)
         {
