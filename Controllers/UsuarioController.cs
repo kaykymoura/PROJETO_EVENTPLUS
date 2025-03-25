@@ -1,81 +1,73 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿
+
 using Microsoft.AspNetCore.Mvc;
 using projeto_event_plus.Interfaces;
 using Projeto_EventPlus.Domains;
 
-namespace Projeto_EventPlus.Controllers
+namespace EventPlus_.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
     public class UsuarioController : ControllerBase
     {
+        private readonly IUsuarioRepository _usuarioRepository;
 
-        private readonly IUsuariosRepository _usuariosRepository;
-
-        public UsuarioController(IUsuariosRepository usuarioRepository)
+        public UsuarioController(IUsuarioRepository usuarioRepository)
         {
-            _usuariosRepository = usuarioRepository;
+            _usuarioRepository = usuarioRepository;
         }
-        [Authorize]
+
+        /// <summary>
+        /// Endpoint para cadastrar novo usuario
+        /// </summary>
         [HttpPost]
-        public IActionResult Post(Usuarios usuario)
+        public IActionResult Post(Usuarios novoUsuario)
         {
             try
             {
-                _usuariosRepository.Cadastrar(usuario);
-                return StatusCode(201, usuario);
+                _usuarioRepository.Cadastrar(novoUsuario);
+
+                return StatusCode(201, novoUsuario);
 
             }
             catch (Exception error)
             {
-
                 return BadRequest(error.Message);
             }
+
+
         }
 
-        [HttpGet("{id}")]
-
+        /// <summary>
+        /// Endpoint para buscar usuario por Id
+        /// </summary>
+        [HttpGet("BuscarPorId/{id}")]
         public IActionResult GetById(Guid id)
         {
             try
             {
-                Usuarios usuario = _usuariosRepository.BuscarPorId(id);
-
-                if (usuario != null)
-                {
-
-                    return Ok(usuario);
-                }
-                return null!;
+                Usuarios novoUsuario = _usuarioRepository.BuscarPorId(id);
+                return Ok(novoUsuario);
             }
-            catch (Exception e)
+            catch (Exception error)
             {
-                return BadRequest(e.Message);
+                return BadRequest(error.Message);
             }
         }
 
-        [HttpGet("BuscarPorEmailESenha")]
-
-        public IActionResult GetByEmailAndSenha(string email, string senha)
+        [HttpGet("BuscarPorEmailESenha/{email}, {senha}")]
+        public IActionResult Get(string email, string senha)
         {
             try
             {
-                Usuarios usuarioBuscado = _usuariosRepository.BuscarPorEmailESenha(email, senha);
-
-                if (usuarioBuscado != null)
-                {
-                    return Ok(usuarioBuscado);
-                }
-                return null!;
+                Usuarios novoUsuario = _usuarioRepository.BuscarPorEmailESenha(email, senha);
+                return Ok(novoUsuario);
             }
-            catch (Exception e)
+            catch (Exception error)
             {
-
-                return BadRequest(e.Message);
+                return BadRequest(error.Message);
             }
-
         }
     }
 }

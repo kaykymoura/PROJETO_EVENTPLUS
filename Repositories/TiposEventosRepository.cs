@@ -18,16 +18,16 @@ namespace EventPlus_.Repositories
         {
             try
             {
-                TiposEventos tiposEventosBuscado = _context.TiposEventos.Find(id)!;
+                TiposEventos tipoBuscado = _context.TiposEventos.Find(id)!;
 
-                if (tiposEventosBuscado != null)
+                if (tiposEventos != null)
                 {
-                    tiposEventosBuscado.IdTipoEvento = tiposEventos.IdTipoEvento;
-                    tiposEventosBuscado.TituloTipoEvento = tiposEventos.TituloTipoEvento;
-
-                    _context.TiposEventos.Update(tiposEventosBuscado);
-                    _context.SaveChanges();
+                    tipoBuscado.TituloTipoEvento = tiposEventos.TituloTipoEvento;
                 }
+
+                _context.TiposEventos.Update(tipoBuscado!);
+
+                _context.SaveChanges();
             }
             catch (Exception)
             {
@@ -39,9 +39,7 @@ namespace EventPlus_.Repositories
         {
             try
             {
-                TiposEventos tipoEventoBuscado = _context.TiposEventos.Find(id)!;
-                return tipoEventoBuscado;
-
+                return _context.TiposEventos.Find(id)!;
             }
             catch (Exception)
             {
@@ -53,8 +51,9 @@ namespace EventPlus_.Repositories
         {
             try
             {
-                _context.TiposEventos.Add(novoTipoEvento);
+                novoTipoEvento.IdTipoEvento = Guid.NewGuid(); 
 
+                _context.TiposEventos.Add(novoTipoEvento);
                 _context.SaveChanges();
             }
             catch (Exception)
@@ -63,22 +62,22 @@ namespace EventPlus_.Repositories
             }
         }
 
+
         public void Deletar(Guid id)
         {
             try
             {
-                TiposEventos tipoEventoBuscado = _context.TiposEventos.Find(id)!;
+                TiposUsuarios tipoBuscado = _context.TiposUsuarios.Find(id)!;
 
-                if (tipoEventoBuscado != null)
+                if (tipoBuscado != null)
                 {
-                    _context.TiposEventos.Remove(tipoEventoBuscado);
+                    _context.TiposUsuarios.Remove(tipoBuscado);
                 }
 
                 _context.SaveChanges();
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -87,9 +86,7 @@ namespace EventPlus_.Repositories
         {
             try
             {
-                List<TiposEventos> listaDeEventos = _context.TiposEventos.ToList();
-                return listaDeEventos;
-
+                return _context.TiposEventos.ToList();
             }
             catch (Exception)
             {

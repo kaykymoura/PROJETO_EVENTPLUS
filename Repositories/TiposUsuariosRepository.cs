@@ -1,7 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore;
+﻿
 using projeto_event_plus.Interfaces;
 using Projeto_EventPlus.Contexts;
 using Projeto_EventPlus.Domains;
@@ -23,19 +20,19 @@ namespace Projeto_EventPlus.Repositories
             {
                 try
                 {
-                    TiposUsuarios tiposUsuariosBuscados = _context.TiposUsuarios.Find(id)!;
+                    TiposUsuarios tipoBuscado = _context.TiposUsuarios.Find(id)!;
 
-                    if (tiposUsuariosBuscados != null)
+                    if (tipoBuscado != null)
                     {
-
-                        tiposUsuariosBuscados.IdTiposUsuario = id;
-
+                        tipoBuscado.TituloTipoUsuario = tiposUsuarios.TituloTipoUsuario;
                     }
+
+                    _context.TiposUsuarios.Update(tipoBuscado!);
+
                     _context.SaveChanges();
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
             }
@@ -46,14 +43,10 @@ namespace Projeto_EventPlus.Repositories
         {
             try
             {
-
-                TiposUsuarios tiposUsuariosBuscados = _context.TiposUsuarios.Find(id)!;
-                return tiposUsuariosBuscados;
-
+                return _context.TiposUsuarios.Find(id)!;
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -62,6 +55,8 @@ namespace Projeto_EventPlus.Repositories
         {
             try
             {
+                tiposUsuarios.IdTiposUsuario = Guid.NewGuid();
+
                 _context.TiposUsuarios.Add(tiposUsuarios);
 
                 _context.SaveChanges();
@@ -76,19 +71,17 @@ namespace Projeto_EventPlus.Repositories
         {
             try
             {
-                TiposUsuarios tiposUsuariosBuscado = _context.TiposUsuarios.Find(id)!;
+                TiposUsuarios tipoBuscado = _context.TiposUsuarios.Find(id)!;
 
-                if (tiposUsuariosBuscado != null)
+                if (tipoBuscado != null)
                 {
-                    _context.TiposUsuarios.Remove(tiposUsuariosBuscado);
+                    _context.TiposUsuarios.Remove(tipoBuscado);
                 }
 
                 _context.SaveChanges();
-
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -97,13 +90,10 @@ namespace Projeto_EventPlus.Repositories
         {
             try
             {
-                List<TiposUsuarios> listaTiposUsuarios = _context.TiposUsuarios.ToList()!;
-
-                return listaTiposUsuarios;
+                return _context.TiposUsuarios.ToList();
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

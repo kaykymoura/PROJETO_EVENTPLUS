@@ -3,7 +3,7 @@ using Projeto_EventPlus.Domains;
 
 namespace projeto_event_plus.Interfaces
 {
-    public interface IUsuariosRepository
+    public interface IUsuarioRepository
     {
         //cadastrar
         void Cadastrar(Usuarios usuarios);

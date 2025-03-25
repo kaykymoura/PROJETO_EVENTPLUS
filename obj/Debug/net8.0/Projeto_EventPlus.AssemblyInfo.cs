@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Projeto_EventPlus")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a763965301eb096dc038727abd72af3838bae306")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c93f8613d92e4a8fb4725e1635e8e008552f3e6")]
 [assembly: System.Reflection.AssemblyProductAttribute("Projeto_EventPlus")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Projeto_EventPlus")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

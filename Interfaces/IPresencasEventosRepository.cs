@@ -22,8 +22,6 @@ namespace projeto_event_plus.Interfaces
 
         //inscrever 
         void Inscrever(PresencasEventos inscricao);
-
-
-
+        List<PresencasEventos> ListarMinhasPresencas(Guid id);
     }
 }

@@ -5,29 +5,19 @@ namespace projeto_event_plus.Interfaces
 {
     public interface IEventosRepository
     {
-        //cadastrar
-        void Cadastrar(Eventos eventos);
+            List<Eventos> Listar();
 
-        //deletar
-        void Deletar(Guid id);
+            void Cadastrar(Eventos evento);
 
-        //listar
-        List<Eventos> Listar();
+            void Atualizar(Guid id, Eventos evento);
 
+            void Deletar(Guid id);
 
-        //listar por id 
-        List<Eventos> ListarPorId(Guid id);
+            List<Eventos> ListarPorId(Guid id);
 
-        //listar proximos eventos
-        List<Eventos> ListarProximosEventos();
+            Eventos BuscarPorId(Guid id);
 
-        //buscar por id
-        Eventos BuscarPorId(Guid id);
-
-        //atualizar
-        void Atualizar(Guid id, Eventos eventos);
-
-
+            List<Eventos> ListarProximosEventos(Guid id);
 
     }
 }

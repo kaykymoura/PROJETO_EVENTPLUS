@@ -1,100 +1,118 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using projeto_event_plus.Interfaces;
 using Projeto_EventPlus.Domains;
 
-namespace Projeto_EventPlus.Controllers
+namespace EventPlus_.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
     public class TipoUsuarioController : ControllerBase
     {
-        private readonly ITiposUsuariosRepository _tiposUsuariosRepository;
+        private readonly ITiposUsuariosRepository _tipoUsuarioRepository;
 
-        public TipoUsuarioController(ITiposUsuariosRepository tiposUsuariosRepository)
+        public TipoUsuarioController(ITiposUsuariosRepository tipoUsuarioRepository)
         {
-            _tiposUsuariosRepository = tiposUsuariosRepository;
+            _tipoUsuarioRepository = tipoUsuarioRepository;
         }
 
-        // Cadastrar 
+
+        /// <summary>
+        /// Endpoint para cadastrar um tipo de usuario
+        /// </summary>
         [HttpPost]
-        public IActionResult Post(TiposUsuarios tiposUsuarios)
+        public IActionResult Post(TiposUsuarios novoTipoUsuario)
         {
             try
             {
-                _tiposUsuariosRepository.Cadastrar(tiposUsuarios);
+                _tipoUsuarioRepository.Cadastrar(novoTipoUsuario);
                 return Created();
             }
-            catch (Exception e)
+            catch (Exception error)
             {
-                return BadRequest(e.Message);
+                return BadRequest(error.Message);
             }
         }
 
-        // Deletar
-        [HttpDelete("{id}")]
-        public IActionResult DeleteById(Guid id)
-        {
-            try
-            {
-                _tiposUsuariosRepository.Deletar(id);
-                return NoContent();
-            }
-            catch (Exception)
-            {
-                return BadRequest("Erro ao deletar o usuário.");
-            }
-        }
-
-        // Listar todos os tipos de usuários 
+        /// <summary>
+        /// Endpoint para listar os tipos de usuario
+        /// </summary>
         [HttpGet]
         public IActionResult Get()
         {
             try
             {
-                List<TiposUsuarios> tiposUsuarios = _tiposUsuariosRepository.Listar();
-                return Ok(tiposUsuarios);
+                List<TiposUsuarios> listaTipoUsuario = _tipoUsuarioRepository.Listar();
+                return Ok(listaTipoUsuario);
             }
-            catch (Exception e)
+            catch (Exception error)
             {
-                return BadRequest(e.Message);
+                return BadRequest(error.Message);
             }
         }
 
-        // Buscar por ID
+        /// <summary>
+        /// Endpoint para atualizar um tipo de usuário.
+        /// </summary>
+        [HttpPut("{id}")]
+        public IActionResult Put(Guid id, TiposUsuarios tipoUsuario)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var tipoUsuarioExistente = _tipoUsuarioRepository.BuscarPorId(id);
+                if (tipoUsuarioExistente == null)
+                {
+                    return NotFound("Tipo de usuário não encontrado.");
+                }
+
+                _tipoUsuarioRepository.Atualizar(id, tipoUsuario);
+                return NoContent();
+            }
+            catch (Exception error)
+            {
+                return BadRequest(error.Message);
+            }
+        }
+
+        /// <summary>
+        /// Endpoint para deletar os tipos de usuarios
+        /// </summary>
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                _tipoUsuarioRepository.Deletar(id);
+                return NoContent();
+            }
+            catch (Exception error)
+            {
+                return BadRequest(error.Message);
+            }
+        }
+
+        /// <summary>
+        /// Endpoint para buscar o tipo do usuario por Id
+        /// </summary>
         [HttpGet("BuscarPorId/{id}")]
         public IActionResult GetById(Guid id)
         {
             try
             {
-                TiposUsuarios tiposUsuariosBuscado = _tiposUsuariosRepository.BuscarPorId(id);
-
-                if (tiposUsuariosBuscado == null)
-                {
-                    return NotFound("Usuário não encontrado.");
-                }
-
-                return Ok(tiposUsuariosBuscado);
+                TiposUsuarios novotipoUsuario = _tipoUsuarioRepository.BuscarPorId(id);
+                return Ok(novotipoUsuario);
             }
-            catch (Exception e)
+            catch (Exception error)
             {
-                return BadRequest($"Erro ao buscar usuário: {e.Message}");
-            }
-        }
-
-        // Atualizar 
-        [HttpPut("{id}")]
-        public IActionResult Put(Guid id, TiposUsuarios tiposUsuarios)
-        {
-            try
-            {
-                _tiposUsuariosRepository.Atualizar(id, tiposUsuarios);
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
+                return BadRequest(error.Message);
             }
         }
     }
